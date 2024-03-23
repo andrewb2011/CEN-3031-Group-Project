@@ -71,14 +71,13 @@ function RegistrationForm() {
           },
         },
       };
-      const { error } = await signUp(userData);
 
+      const { data, error } = await signUp(userData);
+      console.log(data);
       if (error) {
         throw new Error(error.error_description || error.message);
       } else {
         //if successfully logged in, then ...
-
-        //supabase logs in a user when they finish registering an account. If we are forcing the user to login after registering an account, then they must be signed out
         await signOut();
 
         alert("Successfully Registered an Account!");

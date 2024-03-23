@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../features/authentication/hooks/useAuth";
 import { signOut } from "../features/authentication/services/authService";
 function NavBar() {
-  const [session, loadingSessionData] = useAuth();
+  const { session, loadingSessionData } = useAuth();
 
   const navigate = useNavigate();
   async function handleLogout() {

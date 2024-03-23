@@ -6,7 +6,7 @@ import Home from "../pages/Home";
 import Spinner from "../components/ui/Spinner";
 
 function AppRoutes() {
-  const [session, loadingSessionData] = useAuth();
+  const { session, loadingSessionData } = useAuth();
 
   return (
     <Routes>

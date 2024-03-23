@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import supabase from "../../../config/supabaseClient";
 
 /**
- * A custom React hook for managing user authentication state using Supabase.
+ * A custom React hook for tracking and managing user authentication state using Supabase.
  * @returns {{
  *   session: import('@supabase/supabase-js').Session | null,
  *   loadingSessionData: boolean,
@@ -26,8 +26,18 @@ export function useAuth() {
     });
 
     //Sets up an even listener that listens for changes to authentication state. auth.onAuthStateChange will trigger the execution of the callback function whenever supabase detects a change in the user's authentication state. This is a type of user subscription
-    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
-      console.log(_event);
+    const { data } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event == "SIGNED_IN") {
+        //supabase fires a SIGNED_IN event when a user registers and logs in manually. We want to force users to login after registering, and to achieve this, the session will only get updated if the user that is part of the current session is not a newly created account.
+        const createdAt = new Date(session.user.created_at);
+        const currentTime = new Date();
+        const diffInSeconds = Math.abs((currentTime - createdAt) / 1000);
+        if (diffInSeconds < 3) {
+          console.log("NEWLY created account");
+          return;
+        }
+      }
+
       setSession(session);
     });
 
@@ -35,5 +45,5 @@ export function useAuth() {
     return () => data.subscription.unsubscribe();
   }, []);
 
-  return [session, loadingSessionData];
+  return { session, loadingSessionData };
 }
