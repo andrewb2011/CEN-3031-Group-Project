@@ -1,0 +1,15 @@
+/* Import Tailwind's base styles */
+@tailwind base;
+
+@layer base {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+}
+/* Import Tailwind's components styles */
+@tailwind components;
+
+/* Import Tailwind's utilities styles */
+@tailwind utilities;

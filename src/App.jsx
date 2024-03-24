@@ -5,8 +5,9 @@ import Footer from "./layouts/Footer";
 
 function App() {
   return (
-    <div>
+    <div className=" flex h-screen flex-col justify-start">
       <NavBar />
+      {/* The basis may need to change depending on the content it holds. We need to come back to this later */}
       <PageContainer>
         <AppRoutes />
       </PageContainer>
