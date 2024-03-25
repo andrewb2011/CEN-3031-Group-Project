@@ -3,6 +3,7 @@ import { signOut, signUp } from "../services/authService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, Link } from "react-router-dom";
+import Button from "../../../components/ui/Button";
 import styles from "./RegistrationForm.module.css";
 
 function reducer(state, action) {
@@ -182,13 +183,9 @@ function RegistrationForm() {
       <Link style={{ display: "inline-block" }} to="/login">
         Already have an account? Sign in.
       </Link>
-      <button
-        style={{ marginBottom: "20px" }}
-        disabled={isLoading}
-        type="submit"
-      >
+      <Button disabled={isLoading} type="submit">
         Submit
-      </button>
+      </Button>
     </form>
   );
 }
