@@ -10,6 +10,7 @@ export function InputField({
   children = "",
   disableTransition = false,
   className = "",
+  error = "", // This is the error message on submit, if applicable
 }) {
   const [isFocused, setIsFocused] = useState(false);
   const [hasContent, setHasContent] = useState(false);
@@ -43,6 +44,7 @@ export function InputField({
         {labelName}
       </span>
       {children}
+      {error && <span className="text-sm text-red-500 ">{error}</span>}
     </div>
   );
 }

@@ -1,8 +1,8 @@
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import { signOut, signUp } from "../services/authService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import Button from "../../../components/ui/Button";
 import { twMerge } from "tailwind-merge";
 import { InputField } from "../../../components/ui/InputField";
@@ -39,6 +39,11 @@ const initialState = {
 };
 
 function RegistrationForm({ className }) {
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [usernameErrorMessage, setUserNameErrorMessage] = useState("");
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
+  const [orgNameErrorMessage, setOrgNameErrorMessage] = useState("");
+
   const [
     {
       email,
@@ -56,9 +61,20 @@ function RegistrationForm({ className }) {
 
   async function handleRegister(event) {
     event.preventDefault();
+    setEmailErrorMessage("");
+    setUserNameErrorMessage("");
+    setPasswordErrorMessage("");
+    setOrgNameErrorMessage("");
 
     //If either of these attributes is blank then don't proceed
-    if (!email || !password || !user_name || !organization_name) return;
+    if (!email || !password || !user_name || !organization_name) {
+      if (!email) setEmailErrorMessage("Email is required");
+      if (!password) setPasswordErrorMessage("Password is required");
+      if (!user_name) setUserNameErrorMessage("UserName is required");
+      if (!organization_name)
+        setOrgNameErrorMessage("Oranization Name is required");
+      return;
+    }
     try {
       dispatch({ type: "SET_LOADING", payload: true });
       const userData = {
@@ -75,19 +91,35 @@ function RegistrationForm({ className }) {
       };
 
       const { data, error } = await signUp(userData);
-      console.log(data);
+
       if (error) {
-        throw new Error(error.error_description || error.message);
+        //console.log(error.message);
+        throw new Error(error.message);
       } else {
         //if successfully logged in, then ...
+        console.log(data);
         await signOut();
 
         alert("Successfully Registered an Account!");
 
         navigate("/login");
       }
-    } catch (message) {
-      alert(message);
+    } catch (error) {
+      console.log(error.message);
+      // if email is already registered, set email error to this string
+      if (error.message === "User already registered")
+        setEmailErrorMessage("Email must be unique");
+      if (
+        // if username is already registered, set email error to this string
+        error.message ===
+        `duplicate key value violates unique constraint "profiles_user_name_key"`
+      )
+        setUserNameErrorMessage("Username must be unique");
+      if (
+        error.message ===
+        `duplicate key value violates unique constraint "profiles_organization_name_key"`
+      )
+        setOrgNameErrorMessage("Organization name must be unique");
     } finally {
       dispatch({ type: "SET_LOADING", payload: false });
     }
@@ -105,6 +137,7 @@ function RegistrationForm({ className }) {
           onChange={(e) =>
             dispatch({ type: "SET_EMAIL", payload: e.target.value })
           }
+          error={emailErrorMessage}
         />
         <InputField
           labelName="Username"
@@ -114,6 +147,7 @@ function RegistrationForm({ className }) {
           onChange={(e) =>
             dispatch({ type: "SET_USER_NAME", payload: e.target.value })
           }
+          error={usernameErrorMessage}
         />
 
         <InputField
@@ -124,6 +158,7 @@ function RegistrationForm({ className }) {
           onChange={(e) =>
             dispatch({ type: "SET_PASSWORD", payload: e.target.value })
           }
+          error={passwordErrorMessage}
         >
           <FontAwesomeIcon
             className="absolute right-0 p-1 cursor-pointer"
@@ -144,6 +179,7 @@ function RegistrationForm({ className }) {
           onChange={(e) =>
             dispatch({ type: "SET_ORGANIZATION_NAME", payload: e.target.value })
           }
+          error={orgNameErrorMessage}
         />
         <InputField
           labelName="Are you a donor?"
@@ -155,11 +191,12 @@ function RegistrationForm({ className }) {
           disableTransition={true}
           className="flex items-center "
         />
-
-        <Link to="/login" className="font-bold">
-          Already have an account?{" "}
-          <span className="text-blue-500">Sign in</span>
-        </Link>
+        <div className="flex gap-2">
+          <p>Already have an account? </p>
+          <Link to="/login" className="font-bold">
+            <span className="text-blue-500">Sign in</span>
+          </Link>
+        </div>
         <Button
           disabled={isLoading}
           type="submit"
