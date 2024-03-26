@@ -1,10 +1,10 @@
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import { signOut, signUp } from "../services/authService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, Link } from "react-router-dom";
 import Button from "../../../components/ui/Button";
-import styles from "./RegistrationForm.module.css";
+import { twMerge } from "tailwind-merge";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -13,7 +13,7 @@ function reducer(state, action) {
     case "SET_PASSWORD":
       return { ...state, password: action.payload };
     case "SET_ROLE":
-      return { ...state, role: action.payload };
+      return { ...state, role: !state.role };
     case "SET_USER_NAME":
       return { ...state, user_name: action.payload };
     case "SET_ORGANIZATION_NAME":
@@ -30,14 +30,60 @@ function reducer(state, action) {
 const initialState = {
   email: "",
   password: "",
-  role: "",
+  role: false,
   user_name: "",
   organization_name: "",
   isPasswordVisible: false,
   isLoading: false,
 };
 
-function RegistrationForm() {
+function TextInputField({
+  labelName,
+  type,
+  value,
+  onChange,
+  placeholder = "",
+  children = "",
+  disableTransition = false,
+  className = "",
+}) {
+  const [isFocused, setIsFocused] = useState(false);
+  const [hasContent, setHasContent] = useState(false);
+
+  return (
+    <div
+      className={twMerge("relative", className)}
+      onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
+    >
+      <input
+        className="border rounded p-1 outline-none border-solid border-[#808080] bg-transparent w-full "
+        type={type}
+        placeholder={""}
+        value={value}
+        onChange={(e) => {
+          e.target.value.length > 0
+            ? setHasContent(true)
+            : setHasContent(false);
+          onChange(e);
+        }}
+      />
+      <span
+        className={twMerge(
+          "absolute left-0 p-2 text-sm uppercase pointer-events-none font-robotoslab text-footer transition",
+          (isFocused || hasContent) &&
+            !disableTransition &&
+            "text-black text-xs translate-x-2 -translate-y-2 py-0 bg-secondary tracking-widest   "
+        )}
+      >
+        {labelName}
+      </span>
+      {children}
+    </div>
+  );
+}
+
+function RegistrationForm({ className }) {
   const [
     {
       email,
@@ -57,8 +103,7 @@ function RegistrationForm() {
     event.preventDefault();
 
     //If either of these attributes is blank then don't proceed
-    if (!email || !password || !role || !user_name || !organization_name)
-      return;
+    if (!email || !password || !user_name || !organization_name) return;
     try {
       dispatch({ type: "SET_LOADING", payload: true });
       const userData = {
@@ -66,7 +111,8 @@ function RegistrationForm() {
         password,
         options: {
           data: {
-            role,
+            //test this to see if it works
+            role: role ? "donor" : "recipient",
             user_name,
             organization_name,
           },
@@ -93,100 +139,81 @@ function RegistrationForm() {
   }
 
   return (
-    <form onSubmit={handleRegister}>
-      <input
-        type="email"
-        placeholder="Your-email@example.com"
-        value={email}
-        onChange={(e) =>
-          dispatch({ type: "SET_EMAIL", payload: e.target.value })
-        }
-        required
-        style={{ outline: "none" }}
-      />
-      <input
-        type="text"
-        placeholder="user_name"
-        value={user_name}
-        onChange={(e) =>
-          dispatch({ type: "SET_USER_NAME", payload: e.target.value })
-        }
-        required
-        style={{ outline: "none" }}
-      />
-      <div
-        style={{
-          display: "flex",
-          margin: " 10px 0 20px 0",
-          padding: "15px",
-          alignItems: "center",
-          columnGap: "5px",
-          width: "75%",
-          border: "1px solid #ccc",
-          boxSizing: "border-box",
-          outline: "none",
-        }}
-      >
-        <input
+    <div className={twMerge("w-1/2", className)}>
+      <h1 className="text-4xl text-center font-abrilfatface">Create Account</h1>
+      <form onSubmit={handleRegister} className="flex flex-col gap-6 mt-4">
+        <TextInputField
+          labelName="Email Address"
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) =>
+            dispatch({ type: "SET_EMAIL", payload: e.target.value })
+          }
+        />
+        <TextInputField
+          labelName="Username"
+          type="text"
+          placeholder="user_name"
+          value={user_name}
+          onChange={(e) =>
+            dispatch({ type: "SET_USER_NAME", payload: e.target.value })
+          }
+        />
+
+        <TextInputField
+          labelName={"Password"}
           type={isPasswordVisible ? "text" : "password"}
-          style={{
-            width: "100%",
-            border: "none",
-            padding: 0,
-            margin: 0,
-            outline: "none",
-          }}
-          placeholder="Password"
-          minLength="8"
+          placeholder="password"
           value={password}
           onChange={(e) =>
             dispatch({ type: "SET_PASSWORD", payload: e.target.value })
           }
-          required
-        />
-
-        <FontAwesomeIcon
-          style={{ cursor: "pointer" }}
-          icon={isPasswordVisible ? faEye : faEyeSlash}
-          size="xl"
-          onClick={() =>
-            dispatch({
-              type: "TOGGLE_PASSWORD_VISIBILITY",
-            })
+        >
+          <FontAwesomeIcon
+            className="absolute right-0 p-1 cursor-pointer"
+            icon={isPasswordVisible ? faEye : faEyeSlash}
+            size="xl"
+            onClick={() =>
+              dispatch({
+                type: "TOGGLE_PASSWORD_VISIBILITY",
+              })
+            }
+          />
+        </TextInputField>
+        <TextInputField
+          labelName="Organization Name"
+          type="text"
+          placeholder="organization name"
+          value={organization_name}
+          onChange={(e) =>
+            dispatch({ type: "SET_ORGANIZATION_NAME", payload: e.target.value })
           }
         />
-      </div>
-      <input
-        type="text"
-        placeholder="organization name"
-        value={organization_name}
-        onChange={(e) =>
-          dispatch({ type: "SET_ORGANIZATION_NAME", payload: e.target.value })
-        }
-        required
-        style={{ outline: "none" }}
-      />
-      <div>
-        <label htmlFor="role-type">Are you a donor or recipient?</label>
-        <select
-          id="role-type"
+        <TextInputField
+          labelName="Are you a donor?"
+          type="checkbox"
           value={role}
           onChange={(e) =>
             dispatch({ type: "SET_ROLE", payload: e.target.value })
           }
+          disableTransition={true}
+          className="flex items-center "
+        />
+
+        <Link to="/login" className="font-bold">
+          Already have an account?{" "}
+          <span className="text-blue-500">Sign in</span>
+        </Link>
+        <Button
+          disabled={isLoading}
+          type="submit"
+          className="self-center px-6 font-bold font-robotoslab hover:bg-green-500 lg:text-xl"
         >
-          <option value="">---Please choose an option--</option>
-          <option value="donor">Donor</option>
-          <option value="recipient">Recipient</option>
-        </select>
-      </div>
-      <Link style={{ display: "inline-block" }} to="/login">
-        Already have an account? Sign in.
-      </Link>
-      <Button disabled={isLoading} type="submit">
-        Submit
-      </Button>
-    </form>
+          Create
+        </Button>
+      </form>
+    </div>
   );
 }
 
