@@ -1,10 +1,11 @@
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 import { signOut, signUp } from "../services/authService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, Link } from "react-router-dom";
 import Button from "../../../components/ui/Button";
 import { twMerge } from "tailwind-merge";
+import { InputField } from "../../../components/ui/InputField";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -36,52 +37,6 @@ const initialState = {
   isPasswordVisible: false,
   isLoading: false,
 };
-
-function TextInputField({
-  labelName,
-  type,
-  value,
-  onChange,
-  placeholder = "",
-  children = "",
-  disableTransition = false,
-  className = "",
-}) {
-  const [isFocused, setIsFocused] = useState(false);
-  const [hasContent, setHasContent] = useState(false);
-
-  return (
-    <div
-      className={twMerge("relative", className)}
-      onFocus={() => setIsFocused(true)}
-      onBlur={() => setIsFocused(false)}
-    >
-      <input
-        className="border rounded p-1 outline-none border-solid border-[#808080] bg-transparent w-full "
-        type={type}
-        placeholder={""}
-        value={value}
-        onChange={(e) => {
-          e.target.value.length > 0
-            ? setHasContent(true)
-            : setHasContent(false);
-          onChange(e);
-        }}
-      />
-      <span
-        className={twMerge(
-          "absolute left-0 p-2 text-sm uppercase pointer-events-none font-robotoslab text-footer transition",
-          (isFocused || hasContent) &&
-            !disableTransition &&
-            "text-black text-xs translate-x-2 -translate-y-2 py-0 bg-secondary tracking-widest   "
-        )}
-      >
-        {labelName}
-      </span>
-      {children}
-    </div>
-  );
-}
 
 function RegistrationForm({ className }) {
   const [
@@ -142,7 +97,7 @@ function RegistrationForm({ className }) {
     <div className={twMerge("w-1/2", className)}>
       <h1 className="text-4xl text-center font-abrilfatface">Create Account</h1>
       <form onSubmit={handleRegister} className="flex flex-col gap-6 mt-4">
-        <TextInputField
+        <InputField
           labelName="Email Address"
           type="email"
           placeholder="Email"
@@ -151,7 +106,7 @@ function RegistrationForm({ className }) {
             dispatch({ type: "SET_EMAIL", payload: e.target.value })
           }
         />
-        <TextInputField
+        <InputField
           labelName="Username"
           type="text"
           placeholder="user_name"
@@ -161,7 +116,7 @@ function RegistrationForm({ className }) {
           }
         />
 
-        <TextInputField
+        <InputField
           labelName={"Password"}
           type={isPasswordVisible ? "text" : "password"}
           placeholder="password"
@@ -180,8 +135,8 @@ function RegistrationForm({ className }) {
               })
             }
           />
-        </TextInputField>
-        <TextInputField
+        </InputField>
+        <InputField
           labelName="Organization Name"
           type="text"
           placeholder="organization name"
@@ -190,7 +145,7 @@ function RegistrationForm({ className }) {
             dispatch({ type: "SET_ORGANIZATION_NAME", payload: e.target.value })
           }
         />
-        <TextInputField
+        <InputField
           labelName="Are you a donor?"
           type="checkbox"
           value={role}
