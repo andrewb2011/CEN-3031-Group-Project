@@ -14,9 +14,6 @@ export function InputField({
 }) {
   const [isFocused, setIsFocused] = useState(false);
   const [hasContent, setHasContent] = useState(false);
-  const [isEmpty, setIsEmpty] = useState(false);
-
-  function HandleErrorField() {}
 
   return (
     <div
