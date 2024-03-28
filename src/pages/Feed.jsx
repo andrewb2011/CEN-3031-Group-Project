@@ -1,40 +1,10 @@
-import getAllPosts from "../features/authentication/services/donationPostService";
-import DonationCard from "../components/ui/DonationCard";
-import Modal from "../components/ui/Modal";
-import { useEffect } from "react";
-import { useState } from "react";
-
-function DonationList({ user }) {
-  const [postList, setPostListState] = useState([]);
-  let donationCards = [];
-
-  // Get all donation_post tuples
-  useEffect(() => {
-    (async () => {
-      setPostListState(await getAllPosts());
-    })();
-  }, []);
-
-  // Load each Donation Card using attributes from the PostgresSQL database
-  for (let i = 0; i < postList.length; i++) {
-    donationCards.push(
-      <DonationCard
-        title={postList[i]["title"]}
-        description={postList[i]["description"]}
-        userRole={user.user_metadata.role}
-      />,
-    );
-  }
-
-  return <div>{donationCards}</div>;
-}
+import DonationList from "../features/donation/DonationList";
 
 function Feed({ user }) {
-  console.log(user);
   return (
-    <div className="mx-64 mt-5 font-robotoslab">
+    <div className="mx-64 mt-5 font-robotoslab ">
       <div className="flex flex-row">
-        <button className="h-10 w-60 rounded bg-orange font-bold text-white">
+        <button className="h-10 font-bold text-white rounded w-60 bg-orange">
           New Post
         </button>
         <label className="self-end pl-10">
