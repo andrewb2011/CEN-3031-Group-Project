@@ -30,7 +30,7 @@ function Login() {
       } else {
         //if successfully logged in, then ...
         alert("Successfully logged in!");
-        navigate("/home");
+        navigate("/feed");
       }
     } catch (message) {
       alert(message);
