@@ -1,6 +1,6 @@
 import { twMerge } from "tailwind-merge";
 
-function Button({ children, onClick, disabled, className }) {
+function Button({ children, disabled, onClick = "", className = "" }) {
   return (
     <button
       onClick={onClick}
