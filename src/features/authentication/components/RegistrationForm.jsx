@@ -70,9 +70,9 @@ function RegistrationForm({ className }) {
     if (!email || !password || !user_name || !organization_name) {
       if (!email) setEmailErrorMessage("Email is required");
       if (!password) setPasswordErrorMessage("Password is required");
-      if (!user_name) setUserNameErrorMessage("UserName is required");
+      if (!user_name) setUserNameErrorMessage("Username is required");
       if (!organization_name)
-        setOrgNameErrorMessage("Oranization Name is required");
+        setOrgNameErrorMessage("Organization name is required");
       return;
     }
     try {
@@ -97,7 +97,7 @@ function RegistrationForm({ className }) {
         throw new Error(error.message);
       } else {
         //if successfully logged in, then ...
-        console.log(data);
+
         await signOut();
 
         alert("Successfully Registered an Account!");
@@ -105,21 +105,20 @@ function RegistrationForm({ className }) {
         navigate("/login");
       }
     } catch (error) {
-      console.log(error.message);
       // if email is already registered, set email error to this string
       if (error.message === "User already registered")
-        setEmailErrorMessage("Email must be unique");
+        setEmailErrorMessage("This email already exists");
       if (
         // if username is already registered, set email error to this string
         error.message ===
         `duplicate key value violates unique constraint "profiles_user_name_key"`
       )
-        setUserNameErrorMessage("Username must be unique");
+        setUserNameErrorMessage("This username already exists");
       if (
         error.message ===
         `duplicate key value violates unique constraint "profiles_organization_name_key"`
       )
-        setOrgNameErrorMessage("Organization name must be unique");
+        setOrgNameErrorMessage("Organization name already exists");
     } finally {
       dispatch({ type: "SET_LOADING", payload: false });
     }
@@ -137,7 +136,7 @@ function RegistrationForm({ className }) {
           onChange={(e) =>
             dispatch({ type: "SET_EMAIL", payload: e.target.value })
           }
-          error={emailErrorMessage}
+          errorMessage={emailErrorMessage}
         />
         <InputField
           labelName="Username"
@@ -147,7 +146,7 @@ function RegistrationForm({ className }) {
           onChange={(e) =>
             dispatch({ type: "SET_USER_NAME", payload: e.target.value })
           }
-          error={usernameErrorMessage}
+          erroMessage={usernameErrorMessage}
         />
 
         <InputField
@@ -158,7 +157,7 @@ function RegistrationForm({ className }) {
           onChange={(e) =>
             dispatch({ type: "SET_PASSWORD", payload: e.target.value })
           }
-          error={passwordErrorMessage}
+          errorMessage={passwordErrorMessage}
         >
           <FontAwesomeIcon
             className="absolute right-0 p-1 cursor-pointer"
