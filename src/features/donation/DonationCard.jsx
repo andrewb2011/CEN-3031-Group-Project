@@ -13,7 +13,7 @@ function DonationCard({ postId, title, description, onSelectPost }) {
         <p>{description}</p>
       </div>
       <button
-        className="self-end w-24 mr-10 font-bold text-white rounded bg-orange"
+        className="self-end w-24 p-1 mr-10 text-white rounded bg-orange hover:font-bold"
         onClick={() => onSelectPost(postId)}
       >
         View More

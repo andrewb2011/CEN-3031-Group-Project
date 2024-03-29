@@ -25,9 +25,18 @@ function DonationList({ user }) {
     <div>
       {selectedPost && (
         <Modal onClose={() => setSelectedPost(null)}>
-          <h2>{selectedPost.title}</h2>
-          <p>{selectedPost.description}</p>
-          {user.user_metadata.role === "recipient" && <Button>Claim</Button>}
+          <h2 className="mb-2 text-lg font-bold">{selectedPost.title}</h2>
+          <div className="p-4 mb-4 bg-[#FAC710] bg-opacity-15 border rounded-lg border-orange">
+            <p className="mb-4 text-gray-700">{selectedPost.description}</p>
+          </div>
+
+          {user.user_metadata.role === "recipient" && (
+            <div className="flex justify-center">
+              <Button className="font-bold text-white rounded bg-orange hover:bg-[#E37410]">
+                Claim Donation
+              </Button>
+            </div>
+          )}
         </Modal>
       )}
       {postList.map((post) => (
