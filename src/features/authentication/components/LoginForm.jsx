@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, Link } from "react-router-dom";
-import styles from "./LoginForm.module.css";
+
 import { signIn } from "../services/authService";
 
 function Login() {
@@ -30,7 +30,7 @@ function Login() {
       } else {
         //if successfully logged in, then ...
         alert("Successfully logged in!");
-        navigate("/home");
+        navigate("/feed");
       }
     } catch (message) {
       alert(message);
