@@ -1,7 +1,3 @@
-import { useState } from "react";
-import Modal from "../../components/ui/Modal";
-import Button from "../../components/ui/Button";
-
 // Card seen in "Feed" and "View Past Donation" lists
 function DonationCard({ postId, title, description, onSelectPost }) {
   return (

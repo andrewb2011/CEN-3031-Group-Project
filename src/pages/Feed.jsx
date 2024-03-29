@@ -1,4 +1,4 @@
-import DonationList from "../features/donation/DonationList";
+import DonationList from "../features/donation/components/DonationList";
 
 function Feed({ user }) {
   return (

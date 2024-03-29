@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import DonationCard from "./DonationCard";
-import getAllPosts from "../authentication/services/donationPostService";
-import Modal from "../../components/ui/Modal";
-import Button from "../../components/ui/Button";
+import { getAllPosts } from "../services/donationPostService";
+import Modal from "../../../components/ui/Modal";
+import Button from "../../../components/ui/Button";
 
 function DonationList({ user }) {
   const [postList, setPostListState] = useState([]);
@@ -16,7 +16,11 @@ function DonationList({ user }) {
   // Get all donation_post tuples
   useEffect(() => {
     (async () => {
-      setPostListState(await getAllPosts());
+      try {
+        setPostListState(await getAllPosts());
+      } catch (error) {
+        console.error(error.message);
+      }
     })();
   }, []);
 
@@ -29,6 +33,7 @@ function DonationList({ user }) {
           <div className="p-4 mb-4 bg-[#FAC710] bg-opacity-15 border rounded-lg border-orange">
             <p className="mb-4 text-gray-700">{selectedPost.description}</p>
           </div>
+          <div>{selectedPost.profiles.organization_name}</div>
 
           {user.user_metadata.role === "recipient" && (
             <div className="flex justify-center">
