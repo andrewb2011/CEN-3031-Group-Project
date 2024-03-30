@@ -3,6 +3,8 @@ import DonationCard from "./DonationCard";
 import { getAllPosts } from "../services/donationPostService";
 import Modal from "../../../components/ui/Modal";
 import Button from "../../../components/ui/Button";
+import { faCalendar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function DonationList({ user }) {
   const [postList, setPostListState] = useState([]);
@@ -24,6 +26,8 @@ function DonationList({ user }) {
     })();
   }, []);
 
+  console.log(selectedPost);
+
   // Load each Donation Card using attributes from the PostgresSQL database
   return (
     <div>
@@ -33,7 +37,22 @@ function DonationList({ user }) {
           <div className="p-4 mb-4 bg-[#FAC710] bg-opacity-15 border rounded-lg border-orange">
             <p className="mb-4 text-gray-700">{selectedPost.description}</p>
           </div>
-          <div>{selectedPost.profiles.organization_name}</div>
+          <div className="flex gap-3">
+            <div className="p-2 mb-4 border border-gray-500 rounded-sm">
+              <FontAwesomeIcon icon={faCalendar} className="" />{" "}
+              {new Date(selectedPost.created_at).toLocaleDateString("en-US", {
+                day: "numeric",
+                month: "short",
+              })}
+            </div>
+            <div className="relative flex items-center p-2 mb-4 border border-gray-500 rounded-sm">
+              {selectedPost.profiles.organization_name}
+            </div>
+            <div className="flex items-center p-2 mb-4 border border-gray-500 rounded-sm">
+              <div className="w-3 h-3 mr-2 bg-green-500 rounded-full"></div>
+              <div>Available</div>
+            </div>
+          </div>
 
           {user.user_metadata.role === "recipient" && (
             <div className="flex justify-center">
