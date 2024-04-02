@@ -26,7 +26,7 @@ function Login({ className }) {
         alert("Failed to log in: " + error.message);
       } else {
         alert("Successfully logged in!");
-        navigate("/home");
+        navigate("/feed");
       }
     } catch (error) {
       alert("Error: " + error.message);
