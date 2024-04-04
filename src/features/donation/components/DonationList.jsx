@@ -26,8 +26,6 @@ function DonationList({ user }) {
     })();
   }, []);
 
-  console.log(selectedPost);
-
   // Load each Donation Card using attributes from the PostgresSQL database
   return (
     <div>
