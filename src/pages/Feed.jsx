@@ -1,12 +1,20 @@
+import { useEffect, useState } from "react";
 import DonationList from "../features/donation/components/DonationList";
+import DonationPostForm from "../features/donation/components/DonationPostForm";
 
 function Feed({ user }) {
-  console.log(user);
+  
+  const [showFormState, setShowFormState] = useState(false)
+
   return (
-    <div className="mx-64 mt-5 font-robotoslab ">
+    <div className="mx-64 mt-5 mb-5 font-robotoslab ">
+
+      {showFormState && (<DonationPostForm user={user} showForm={() => setShowFormState(!showFormState)}/>)}
+      
       <div className="flex flex-row">
         {user.user_metadata.role === "donor" ? (
-          <button className="h-10 text-white rounded w-60 bg-orange hover:bg-[#E37410] hover:font-bold hover:text-lg">
+          <button className="h-10 text-white rounded w-60 bg-orange hover:bg-[#E37410] hover:font-bold hover:text-lg" 
+          onClick={() => {setShowFormState(!showFormState)}}>
             New Post
           </button>
         ) : (
