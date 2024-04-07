@@ -200,6 +200,7 @@ function RegistrationForm({ className }) {
           disabled={isLoading}
           type="submit"
           className="self-center px-6 font-bold font-robotoslab hover:bg-green-500 lg:text-xl"
+          onClick={null}
         >
           Create
         </Button>

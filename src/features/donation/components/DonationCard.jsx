@@ -1,10 +1,8 @@
 // Card seen in "Feed" and "View Past Donation" lists
 function DonationCard({ postId, title, description, onSelectPost }) {
   return (
-    <div className="flex flex-col pt-2 pb-5 mt-5 bg-white bg-contain rounded-3xl">
-      <div className="pt-5 pl-10">
-        <p className="font-bold text-wrap">{title}</p>
-      </div>
+    <div className="flex flex-col pt-2 pb-5 mt-5 bg-white rounded-3xl">
+      <p className="pt-5 pl-10 font-bold ">{title}</p>
       <div className="px-10 text-wrap">
         <p>{description}</p>
       </div>

@@ -14,3 +14,37 @@ export async function getAllPosts() {
     return posts;
   }
 }
+
+/**
+ *Subscribes users to INSERT and UPDATE events for all entries in the donation_post table. Do not use this function for the Feed page. A new subscription function will need to be made
+ * @param {function} eventHandler
+ */
+export function subscribeToAllDonationChanges(eventHandler) {
+  const postSubscription = supabase
+    .channel("custom-insert-update-channel")
+    .on(
+      "postgres_changes",
+      {
+        event: "INSERT",
+        schema: "public",
+        table: "donation_post",
+      },
+      eventHandler
+    )
+    .on(
+      "postgres_changes",
+      {
+        event: "UPDATE",
+        schema: "public",
+        table: "donation_post",
+      },
+      eventHandler
+    )
+    .subscribe();
+
+  return postSubscription;
+}
+
+export function subscribeToClaimedDonationChangesByUsername(username) {
+  return null;
+}
