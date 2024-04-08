@@ -11,6 +11,7 @@ function ActiveDetailedCardView({ selectedPost, setSelectedPost, userRole }) {
         <p className="mb-4 text-gray-700">{selectedPost.description}</p>
         <div className="flex gap-3">
           <div className="p-2 mb-4 border border-gray-500 rounded-sm">
+            <h3 className="text-sm">Posted on:</h3>
             <FontAwesomeIcon icon={faCalendar} className="" />{" "}
             <span>
               {new Date(selectedPost.created_at).toLocaleDateString("en-US", {
@@ -20,6 +21,7 @@ function ActiveDetailedCardView({ selectedPost, setSelectedPost, userRole }) {
             </span>
           </div>
           <div className="relative flex items-center p-2 mb-4 border border-gray-500 rounded-sm">
+            <h3 className="text-sm">Posted by: </h3>
             {selectedPost.profiles.organization_name}
           </div>
           <div className="flex items-center p-2 mb-4 border border-gray-500 rounded-sm">

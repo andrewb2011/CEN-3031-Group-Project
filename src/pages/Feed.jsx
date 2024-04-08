@@ -101,11 +101,7 @@ function Feed({ user }) {
           </div>
         </div>
       )}
-      <DonationList
-        user={user}
-        postsList={filteredPosts}
-        onSelectPost={onSelectPost}
-      />
+      <DonationList postsList={filteredPosts} onSelectPost={onSelectPost} />
     </div>
   );
 }

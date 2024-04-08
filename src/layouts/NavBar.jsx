@@ -30,7 +30,7 @@ function NavBar() {
             Feed
           </NavLink>
           <NavLink
-            to={"/register"}
+            to={"/pastdonations"}
             className={({ isActive }) =>
               isActive ? "underline decoration-orange underline-offset-8" : ""
             }

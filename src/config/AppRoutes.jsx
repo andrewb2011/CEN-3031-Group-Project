@@ -4,7 +4,8 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Spinner from "../components/ui/Spinner";
 import Welcome from "../pages/Welcome";
-import Feed from "../pages/Feed"
+import Feed from "../pages/Feed";
+import PastDonations from "../pages/PastDonations";
 
 function AppRoutes() {
   const { session, loadingSessionData } = useAuth();
@@ -22,7 +23,20 @@ function AppRoutes() {
           loadingSessionData ? (
             <Spinner />
           ) : session ? (
-            <Feed user={session.user}/>
+            <Feed user={session.user} />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+      {/*This is also a protected route */}
+      <Route
+        path="/pastdonations"
+        element={
+          loadingSessionData ? (
+            <Spinner />
+          ) : session ? (
+            <PastDonations user={session.user} />
           ) : (
             <Navigate to="/login" replace />
           )
