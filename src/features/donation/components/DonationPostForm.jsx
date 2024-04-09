@@ -9,6 +9,12 @@ function DonationPostForm({ user, showForm }) {
 
   async function PostDonation(event) {
     event.preventDefault();
+
+    if (!title || !description) {
+      alert("You must fill in both fields before submission.");
+      return;
+    }
+
     try {
       const { error } = await supabase.from("donation_post").insert([
         {
@@ -37,14 +43,16 @@ function DonationPostForm({ user, showForm }) {
           <label>Title</label>
           <input
             type="text"
-            className="border-b-2 outline-none"
+            placeholder="Enter title here"
+            className="border rounded p-1 outline-none border-solid border-[#808080]"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
           <label>Description</label>
           <textarea
             type="text"
-            className="w-100 h-96 border rounded p-1 outline-none border-solid border-[#808080]"
+            placeholder="Enter description here"
+            className="w-100 h-80 border rounded p-1 outline-none border-solid border-[#808080]"
             onChange={(e) => setDescription(e.target.value)}
           ></textarea>
           <Button
