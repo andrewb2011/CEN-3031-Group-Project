@@ -63,6 +63,7 @@ function Feed({ user }) {
     : postsList.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
   if (isLoading) return <Spinner />;
+  //console.log(user);
 
   return (
     <div className=" mt-5 mb-5 w-[900px] mx-auto font-robotoslab">
@@ -76,7 +77,7 @@ function Feed({ user }) {
         <ActiveDetailedCardView
           selectedPost={selectedPost}
           setSelectedPost={setSelectedPost}
-          userRole={user.user_metadata.role}
+          user={user}
         />
       )}
 

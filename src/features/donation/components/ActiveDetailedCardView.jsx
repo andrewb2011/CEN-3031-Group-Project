@@ -2,8 +2,42 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../../../components/ui/Modal";
 import Button from "../../../components/ui/Button";
+import supabase from "../../../config/supabaseClient";
 
-function ActiveDetailedCardView({ selectedPost, setSelectedPost, userRole }) {
+function ActiveDetailedCardView({ selectedPost, setSelectedPost, user }) {
+  async function handleClaimDonation(event) {
+    event.preventDefault();
+
+    // these are for debugging
+    if (user.user_metadata.organization_name)
+      console.log(
+        `${user.user_metadata.organization_name} is the name of the org`
+      );
+    else console.log("user organization name in undefined");
+
+    try {
+      const { data, error } = await supabase
+        .from("donation_post")
+        .update({
+          claimed_by: `${user.user_metadata.organization_name}`,
+          claimed_at: new Date().toISOString(),
+        })
+        .eq("post_id", selectedPost.id);
+      if (error) {
+        throw new Error(error.message);
+      }
+      if (data) {
+        console.log(data);
+      }
+
+      alert("Claimed donation successfully! Congratulations!");
+      setSelectedPost(null);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  console.log(user);
+
   return (
     <Modal onClose={() => setSelectedPost(null)}>
       <h2 className="mb-2 text-lg font-bold">{selectedPost.title}</h2>
@@ -31,9 +65,14 @@ function ActiveDetailedCardView({ selectedPost, setSelectedPost, userRole }) {
         </div>
       </div>
 
-      {userRole === "recipient" && (
+      {user.user_metadata.role === "recipient" && (
         <div className="flex justify-center">
-          <Button className="font-bold text-white rounded bg-orange hover:bg-[#E37410]">
+          <Button
+            className="font-bold text-white rounded bg-orange hover:bg-[#E37410]"
+            onClick={(e) => {
+              handleClaimDonation(e);
+            }}
+          >
             Claim Donation
           </Button>
         </div>
