@@ -20,7 +20,6 @@ function ActiveDetailedCardView({ selectedPost, setSelectedPost, user }) {
         .from("donation_post")
         .update({
           claimed_by: `${user.user_metadata.organization_name}`,
-          claimed_at: new Date(),
         })
         .eq("post_id", selectedPost.post_id);
       if (error) {
