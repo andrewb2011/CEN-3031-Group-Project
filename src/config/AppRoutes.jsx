@@ -8,7 +8,7 @@ import Feed from "../pages/Feed";
 import PastDonations from "../pages/PastDonations";
 
 function AppRoutes() {
-  const { session, loadingSessionData } = useAuth();
+  const [session, loadingSessionData] = useAuth();
 
   return (
     <Routes>
