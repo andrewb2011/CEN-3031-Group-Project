@@ -76,7 +76,7 @@ function Feed({ user }) {
         <ActiveDetailedCardView
           selectedPost={selectedPost}
           setSelectedPost={setSelectedPost}
-          userRole={user.user_metadata.role}
+          user={user}
         />
       )}
 

@@ -2,8 +2,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../../../components/ui/Modal";
 import Button from "../../../components/ui/Button";
+import ClaimDonation from "../services/donationClaimingService"
 
-function ActiveDetailedCardView({ selectedPost, setSelectedPost, userRole }) {
+function ActiveDetailedCardView({ selectedPost, setSelectedPost, user }) {
   return (
     <Modal onClose={() => setSelectedPost(null)}>
       <h2 className="mb-2 text-lg font-bold">{selectedPost.title}</h2>
@@ -31,9 +32,10 @@ function ActiveDetailedCardView({ selectedPost, setSelectedPost, userRole }) {
         </div>
       </div>
 
-      {userRole === "recipient" && (
+      {user.user_metadata.role === "recipient" && (
         <div className="flex justify-center">
-          <Button className="font-bold text-white rounded bg-orange hover:bg-[#E37410]">
+          <Button className="font-bold text-white rounded bg-orange hover:bg-[#E37410]" 
+          onClick={() => {ClaimDonation(selectedPost.post_id, user.user_metadata.user_name)}}>
             Claim Donation
           </Button>
         </div>
