@@ -30,7 +30,7 @@ function ActiveDetailedCardView() {
 
   async function onClaimDonation() {
     await ClaimDonation(selectedPost.post_id, user.user_metadata.user_name);
-    navigate(`/past-donations/${selectedPost.post_id}`);
+    navigate(`/past-donations/${selectedPost.post_id}/messages`);
   }
 
   if (isLoadingSinglePost || !selectedPost) {
