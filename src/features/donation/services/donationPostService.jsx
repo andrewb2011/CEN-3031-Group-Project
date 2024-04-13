@@ -46,8 +46,17 @@ export function subscribeToAllDonationChanges(eventHandler) {
   return postSubscription;
 }
 
-export function subscribeToClaimedDonationChangesByUsername(username) {
-  return null;
+export async function fetchPostById(postId) {
+  const { data, error } = await supabase
+    .from("donation_post")
+    .select("*,profiles:posted_by (organization_name)")
+    .eq("post_id", postId)
+    .single();
+  if (error) {
+    throw new Error(error.message);
+  }
+  console.log(data);
+  return data;
 }
 
 // This retrieves all the past donations in relations to the user.

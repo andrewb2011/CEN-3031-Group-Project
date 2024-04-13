@@ -6,6 +6,10 @@ import Spinner from "../components/ui/Spinner";
 import Welcome from "../pages/Welcome";
 import Feed from "../pages/Feed";
 import PastDonations from "../pages/PastDonations";
+import { PostsProvider } from "../features/donation/contexts/PostsContext";
+
+import PastDetailedCardView from "../features/donation/components/PastDetailedCardView";
+import ActiveDetailedCardView from "../features/donation/components/ActiveDetailedCardView";
 
 function AppRoutes() {
   const [session, loadingSessionData] = useAuth();
@@ -17,6 +21,7 @@ function AppRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       {/* Protected routes go below */}
+
       <Route
         path="/feed"
         element={
@@ -28,20 +33,29 @@ function AppRoutes() {
             <Navigate to="/login" replace />
           )
         }
-      />
+      >
+        <Route index element={<Navigate replace to="/feed" />} />
+        <Route path=":id" element={<ActiveDetailedCardView />} />
+      </Route>
       {/*This is also a protected route */}
+
       <Route
-        path="/pastdonations"
+        path="/past-donations"
         element={
           loadingSessionData ? (
             <Spinner />
           ) : session ? (
-            <PastDonations user={session.user} />
+            <PostsProvider>
+              <PastDonations user={session.user} />
+            </PostsProvider>
           ) : (
             <Navigate to="/login" replace />
           )
         }
-      />
+      >
+        <Route index element={<Navigate replace to="/past-donations" />} />
+        <Route path=":id" element={<PastDetailedCardView />} />
+      </Route>
     </Routes>
   );
 }

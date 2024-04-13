@@ -22,9 +22,6 @@ export function useAuth() {
     //activeSession will be part of the closure of the callback function accepted by supabase.auth.onAuthStateChange.
     let activeSession = null;
     return supabase.auth.onAuthStateChange((event, session) => {
-      console.log(session);
-      console.log(activeSession);
-
       if (session?.user?.id == activeSession?.user?.id) return;
       activeSession = session;
 
