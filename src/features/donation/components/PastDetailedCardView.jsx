@@ -1,10 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../../../components/ui/Modal";
-import Button from "../../../components/ui/Button";
 import { usePostsContext } from "../contexts/PostsContext";
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Spinner from "../../../components/ui/Spinner";
 
 function PastDetailedCardView() {
@@ -78,9 +77,12 @@ function PastDetailedCardView() {
         </div>
       </div>
       <div className="flex justify-center">
-        <Button className="font-bold text-white rounded bg-orange hover:bg-[#E37410]">
+        <Link
+          to="messages"
+          className=" text-white rounded p-2 bg-orange hover:bg-[#E37410] hover:font-bold hover:text-lg"
+        >
           View Messages
-        </Button>
+        </Link>
       </div>
     </Modal>
   );

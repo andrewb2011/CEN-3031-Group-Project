@@ -1,5 +1,4 @@
 import { Routes, Route, Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../features/authentication/hooks/useAuth";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Spinner from "../components/ui/Spinner";
@@ -11,6 +10,8 @@ import { PostsProvider } from "../features/donation/contexts/PostsContext";
 import PastDetailedCardView from "../features/donation/components/PastDetailedCardView";
 import ActiveDetailedCardView from "../features/donation/components/ActiveDetailedCardView";
 import { SessionProvider, useSessionContext } from "../contexts/SessionContext";
+import DonationPostForm from "../features/donation/components/DonationPostForm";
+import MessagesView from "../features/messages/components/MessagesView";
 
 function PrivateRoutes() {
   const { session, isLoadingSessionData } = useSessionContext();
@@ -40,6 +41,7 @@ function AppRoutes() {
           >
             <Route index element={<Navigate replace to="/feed" />} />
             <Route path=":id" element={<ActiveDetailedCardView />} />
+            <Route path="make-post" element={<DonationPostForm />} />
           </Route>
           <Route
             path="/past-donations"
@@ -51,6 +53,7 @@ function AppRoutes() {
           >
             <Route index element={<Navigate replace to="/past-donations" />} />
             <Route path=":id" element={<PastDetailedCardView />} />
+            <Route path=":id/messages" element={<MessagesView />} />
           </Route>
         </Route>
       </Routes>

@@ -23,6 +23,6 @@ export function SessionProvider({ children }) {
 export function useSessionContext() {
   const context = useContext(SessionContext);
   if (!context)
-    throw new Error("Attempted to use PostsContext outside of served area");
+    throw new Error("Attempted to use SessionContext outside of served area");
   return context;
 }

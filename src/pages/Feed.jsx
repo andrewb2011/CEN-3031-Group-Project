@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import DonationList from "../features/donation/components/DonationList";
-import DonationPostForm from "../features/donation/components/DonationPostForm";
 import { subscribeToAllDonationChanges } from "../features/donation/services/donationPostService";
 import Spinner from "../components/ui/Spinner";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { useSessionContext } from "../contexts/SessionContext";
 import { usePostsContext } from "../features/donation/contexts/PostsContext";
 
@@ -55,25 +54,15 @@ function Feed() {
 
   return (
     <div className=" mt-5 mb-5 w-[900px] mx-auto font-robotoslab">
-      {showFormState && (
-        <DonationPostForm
-          user={user}
-          showForm={() => setShowFormState(!showFormState)}
-        />
-      )}
       <Outlet />
-
       {user.user_metadata.role === "donor" && (
         <div className="flex items-center justify-end w-full gap-5">
-          <button
-            className="h-10 text-white rounded w-36 bg-orange hover:bg-[#E37410] hover:font-bold hover:text-lg"
-            onClick={() => {
-              setShowFormState(!showFormState);
-            }}
+          <Link
+            to="make-post"
+            className=" text-white rounded p-2 bg-orange hover:bg-[#E37410] hover:font-bold hover:text-lg"
           >
-            Create a Post
-          </button>
-
+            Make a Post
+          </Link>
           <div>
             <label className="mr-3">View My Posts</label>
             <input
