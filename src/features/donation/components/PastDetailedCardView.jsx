@@ -4,16 +4,13 @@ import Modal from "../../../components/ui/Modal";
 import Button from "../../../components/ui/Button";
 import { usePostsContext } from "../contexts/PostsContext";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Spinner from "../../../components/ui/Spinner";
 
 function PastDetailedCardView() {
-  const {
-    selectedPost,
-    fetchPost,
-    isLoadingSinglePost,
-    onClosePost: onCloseView,
-  } = usePostsContext();
+  const { selectedPost, fetchPost, isLoadingSinglePost, onClosePost } =
+    usePostsContext();
+  const navigate = useNavigate();
   const { id } = useParams();
 
   //Every time the component mounts, fetch the post
@@ -31,7 +28,12 @@ function PastDetailedCardView() {
   }
 
   return (
-    <Modal onClose={onCloseView}>
+    <Modal
+      onClose={() => {
+        navigate("/past-donations");
+        onClosePost();
+      }}
+    >
       <h2 className="mb-2 text-lg font-bold">{selectedPost.title}</h2>
       <div className="p-4 mb-4 bg-[#FAC710] bg-opacity-15 border rounded-lg border-orange">
         <p className="mb-4 text-gray-700">{selectedPost.description}</p>

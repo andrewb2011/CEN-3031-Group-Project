@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   fetchPostById,
+  getAllPosts,
   retrieveClaimedDonations,
 } from "../services/donationPostService";
 
@@ -13,11 +14,20 @@ export function PostsProvider({ children }) {
   const [selectedPost, setSelectedPost] = useState(null);
   const [isLoadingPosts, setIsLoadingPosts] = useState(false);
   const [isLoadingSinglePost, setIsLoadingSinglePost] = useState(true);
-  const navigate = useNavigate();
 
   function onClosePost() {
-    navigate("/past-donations");
     setSelectedPost(null);
+  }
+
+  async function fetchActiveDonations() {
+    try {
+      setIsLoadingPosts(true);
+      setPostsList(await getAllPosts());
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setIsLoadingPosts(false);
+    }
   }
 
   async function fetchPastDonations(user) {
@@ -43,6 +53,18 @@ export function PostsProvider({ children }) {
     }
   }
 
+  function insertPost(post) {
+    setPostsList((state) => [...state, post]);
+  }
+
+  function deletePost(id) {
+    setPostsList((state) =>
+      state.filter((post) => {
+        if (post.post_id !== id) return post;
+      })
+    );
+  }
+
   return (
     //2. Provide context to children
     <DetailedCardContext.Provider
@@ -50,10 +72,13 @@ export function PostsProvider({ children }) {
         postsList,
         selectedPost,
         isLoadingPosts,
+        fetchActiveDonations,
         fetchPastDonations,
         fetchPost,
         isLoadingSinglePost,
         onClosePost,
+        insertPost,
+        deletePost,
       }}
     >
       {children}
