@@ -13,10 +13,17 @@ function MessagesView() {
     >
       <h2 className="ml-4">Other Individual&apos; username</h2>
       <h3 className="ml-6">Other Individual&apos; organization name</h3>
-      <div className="p-4 mb-4 bg-[#FAC710] bg-opacity-15 border rounded-lg border-orange">
-        {Array.from({ length: 3 }, (_, index) => (
+      <div className="p-4 mb-4 bg-[#FAC710] bg-opacity-15 border rounded-lg border-orange max-h-[300px] overflow-y-auto">
+        {Array.from({ length: 10 }, (_, index) => (
           <TextMessage key={index} />
         ))}
+      </div>
+      <div>
+        <textarea
+          type="text"
+          placeholder="Enter message here"
+          className="w-full p-4 mb-4 bg-[#FAC710] bg-opacity-15 border rounded-lg border-orange"
+        ></textarea>
       </div>
     </Modal>
   );
