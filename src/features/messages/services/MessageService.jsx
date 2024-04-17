@@ -31,3 +31,15 @@ export function subscribeToMessageInsertsByThreadId(threadId, eventHandler) {
 
   return messageSubscription;
 }
+
+export async function onSubmitMessage(text, threadid, username) {
+  const { error } = await supabase.from("text_messages").insert({
+    thread_id: threadid,
+    sent_at: new Date().toISOString(),
+    sender: username,
+    message: text,
+  });
+
+  if (error) throw new Error(error);
+  else setTextMessage("");
+}

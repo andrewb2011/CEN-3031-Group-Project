@@ -8,6 +8,7 @@ import MessagesList from "./MessagesList";
 import {
   getTextMessagesByPostId,
   subscribeToMessageInsertsByThreadId,
+  onSubmitMessage,
 } from "../services/MessageService";
 import Spinner from "../../../components/ui/Spinner";
 
@@ -26,6 +27,7 @@ function MessagesView() {
     useState(true);
   const [messagesList, setMessagesList] = useState([]);
   const [threadId, setThreadId] = useState("");
+  const [textMessage, setTextMessage] = useState("");
   let formattedMessageList;
 
   if (messagesList.length > 0) {
@@ -148,8 +150,21 @@ function MessagesView() {
         <textarea
           type="text"
           placeholder="Enter message here"
+          onChange={(e) => setTextMessage(e.target.value)}
           className="w-full p-4 mb-4 bg-[#FAC710] bg-opacity-15 border rounded-lg border-orange"
         ></textarea>
+        <button
+          onClick={() => {
+            onSubmitMessage(
+              textMessage,
+              threadId,
+              user.user_metadata.user_name
+            );
+            setTextMessage("");
+          }}
+        >
+          Enter
+        </button>
       </div>
     </Modal>
   );
