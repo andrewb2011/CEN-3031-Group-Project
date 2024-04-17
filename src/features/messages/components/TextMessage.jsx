@@ -2,13 +2,13 @@
  * Component that represents a single text message
  * @returns
  */
-function TextMessage() {
+function TextMessage({ message }) {
   return (
-    <div className="mb-2 border border-gray-600 border-solid">
-      <h3>Username</h3>
-      <p>date and time</p>
-      <p>Actual text message</p>
-    </div>
+    <li className="mb-2 list-none border border-gray-600 border-solid">
+      <h3>{message.sender}</h3>
+      <p>{`${message.date} ${message.time}`}</p>
+      <p>{message.message}</p>
+    </li>
   );
 }
 

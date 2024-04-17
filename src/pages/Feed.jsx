@@ -17,7 +17,6 @@ function Feed() {
     insertPost,
     deletePost,
   } = usePostsContext();
-  const [showFormState, setShowFormState] = useState(false);
   const [showMyPosts, setShowMyPosts] = useState(false);
 
   // Get all donation_post tuples after mount

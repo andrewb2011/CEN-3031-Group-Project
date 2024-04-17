@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+
 import {
   fetchPostById,
   getAllPosts,
@@ -42,6 +42,7 @@ export function PostsProvider({ children }) {
   }
 
   async function fetchPost(id) {
+    if (selectedPost !== null) return;
     try {
       setIsLoadingSinglePost(true);
       const post = await fetchPostById(id);
