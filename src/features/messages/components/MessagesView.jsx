@@ -8,7 +8,7 @@ import MessagesList from "./MessagesList";
 import {
   getTextMessagesByPostId,
   subscribeToMessageInsertsByThreadId,
-  onSubmitMessage,
+  sendMessage,
 } from "../services/MessageService";
 import Spinner from "../../../components/ui/Spinner";
 
@@ -129,6 +129,15 @@ function MessagesView() {
   if (isLoadingMessages || isLoadingOtherPersonData || isLoadingSinglePost)
     return <Spinner />;
 
+  function onSendMessage() {
+    try {
+      sendMessage(textMessage, threadId, user.user_metadata.user_name);
+      setTextMessage("");
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   return (
     <Modal
       onClose={() => {
@@ -153,18 +162,7 @@ function MessagesView() {
           onChange={(e) => setTextMessage(e.target.value)}
           className="w-full p-4 mb-4 bg-[#FAC710] bg-opacity-15 border rounded-lg border-orange"
         ></textarea>
-        <button
-          onClick={() => {
-            onSubmitMessage(
-              textMessage,
-              threadId,
-              user.user_metadata.user_name
-            );
-            setTextMessage("");
-          }}
-        >
-          Enter
-        </button>
+        <button onClick={() => onSendMessage()}>Send</button>
       </div>
     </Modal>
   );
