@@ -7,7 +7,7 @@ export async function getUserByUsername(username) {
     .eq("user_name", username)
     .single();
 
-  if (error) throw new Error(error);
+  if (error) throw new Error(error.details);
 
   return data;
 }

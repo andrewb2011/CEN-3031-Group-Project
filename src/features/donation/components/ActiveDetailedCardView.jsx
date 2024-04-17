@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../../../components/ui/Modal";
 import Button from "../../../components/ui/Button";
-import ClaimDonation from "../services/donationClaimingService";
+import { claimDonation } from "../services/donationClaimingService";
 import { usePostsContext } from "../contexts/PostsContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
@@ -29,8 +29,13 @@ function ActiveDetailedCardView() {
   );
 
   async function onClaimDonation() {
-    await ClaimDonation(selectedPost.post_id, user.user_metadata.user_name);
-    navigate(`/past-donations/${selectedPost.post_id}/messages`);
+    try {
+      await claimDonation(selectedPost.post_id, user.user_metadata.user_name);
+      onClosePost();
+      navigate(`/past-donations/${selectedPost.post_id}/messages`);
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 
   if (isLoadingSinglePost || !selectedPost) {
