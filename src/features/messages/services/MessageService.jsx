@@ -33,6 +33,8 @@ export function subscribeToMessageInsertsByThreadId(threadId, eventHandler) {
 }
 
 export async function sendMessage(text, threadid, username) {
+  if (!text) throw new Error("You must enter a message to send");
+
   const { error } = await supabase.from("text_messages").insert({
     thread_id: threadid,
     sent_at: new Date().toISOString(),

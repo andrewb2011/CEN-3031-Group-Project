@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import Modal from "../../../components/ui/Modal";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSessionContext } from "../../../contexts/SessionContext";
 import { usePostsContext } from "../../donation/contexts/PostsContext";
 import { getUserByUsername } from "../../authentication/services/userInfoService";
@@ -11,6 +11,7 @@ import {
   sendMessage,
 } from "../services/MessageService";
 import Spinner from "../../../components/ui/Spinner";
+import { IoSend } from "react-icons/io5";
 
 function MessagesView() {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ function MessagesView() {
   const [messagesList, setMessagesList] = useState([]);
   const [threadId, setThreadId] = useState("");
   const [textMessage, setTextMessage] = useState("");
+  const textAreaRef = useRef(null);
   let formattedMessageList;
 
   if (messagesList.length > 0) {
@@ -133,6 +135,7 @@ function MessagesView() {
     try {
       sendMessage(textMessage, threadId, user.user_metadata.user_name);
       setTextMessage("");
+      textAreaRef.current.focus();
     } catch (error) {
       console.error(error.message);
     }
@@ -146,23 +149,32 @@ function MessagesView() {
       }}
       onClickBackButton={() => navigate(`/past-donations/${id}`)}
     >
-      <h2 className="ml-4">{otherPersonUsername}</h2>
-      <h3 className="ml-6">{otherPersonOrgName}</h3>
+      <h2 className="ml-4 text-xl text-gray-600">{otherPersonUsername}</h2>
+      <h3 className="ml-6 text-gray-700">{otherPersonOrgName}</h3>
       <div className="p-4 mb-4 bg-[#FAC710] bg-opacity-15 border rounded-lg border-orange max-h-[300px] overflow-y-auto">
-        {messagesList.length === 0 ? (
-          <p>Start the conversation by sending a message 😊</p>
-        ) : (
-          <MessagesList messages={formattedMessageList} />
-        )}
+        <div className="flex flex-col-reverse">
+          {messagesList.length === 0 ? (
+            <p>Start the conversation by sending a message 😊</p>
+          ) : (
+            <MessagesList messages={formattedMessageList} />
+          )}
+        </div>
       </div>
-      <div>
+
+      <div className="relative">
         <textarea
+          ref={textAreaRef}
+          autoFocus
+          value={textMessage}
           type="text"
           placeholder="Enter message here"
           onChange={(e) => setTextMessage(e.target.value)}
           className="w-full p-4 mb-4 bg-[#FAC710] bg-opacity-15 border rounded-lg border-orange"
         ></textarea>
-        <button onClick={() => onSendMessage()}>Send</button>
+        <IoSend
+          onClick={() => onSendMessage()}
+          className="absolute cursor-pointer right-4 bottom-12 hover:"
+        />
       </div>
     </Modal>
   );
