@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../features/authentication/hooks/useAuth";
 import { signOut } from "../features/authentication/services/authService";
 function NavBar() {
-  const { session, loadingSessionData } = useAuth();
+  const [session, loadingSessionData] = useAuth();
 
   const navigate = useNavigate();
   async function handleLogout() {
@@ -29,12 +29,12 @@ function NavBar() {
             Feed
           </NavLink>
           <NavLink
-            to={"/pastdonations"}
+            to={"/past-donations"}
             className={({ isActive }) =>
               isActive ? "underline decoration-orange underline-offset-8" : ""
             }
           >
-            View Past Donation
+            View Past Donations
           </NavLink>
           <svg
             xmlns="http://www.w3.org/2000/svg"

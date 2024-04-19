@@ -1,11 +1,38 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../../../components/ui/Modal";
-import Button from "../../../components/ui/Button";
+import { usePostsContext } from "../contexts/PostsContext";
+import { useEffect } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import Spinner from "../../../components/ui/Spinner";
 
-function PastDetailedCardView({ selectedPost, setSelectedPost, userRole }) {
+function PastDetailedCardView() {
+  const { selectedPost, fetchPost, isLoadingSinglePost, onClosePost } =
+    usePostsContext();
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  //Every time the component mounts, fetch the post
+  useEffect(
+    function () {
+      if (id) {
+        fetchPost(id);
+      }
+    },
+    [id]
+  );
+
+  if (isLoadingSinglePost || !selectedPost) {
+    return <Spinner />;
+  }
+
   return (
-    <Modal onClose={() => setSelectedPost(null)}>
+    <Modal
+      onClose={() => {
+        navigate("/past-donations");
+        onClosePost();
+      }}
+    >
       <h2 className="mb-2 text-lg font-bold">{selectedPost.title}</h2>
       <div className="p-4 mb-4 bg-[#FAC710] bg-opacity-15 border rounded-lg border-orange">
         <p className="mb-4 text-gray-700">{selectedPost.description}</p>
@@ -50,9 +77,12 @@ function PastDetailedCardView({ selectedPost, setSelectedPost, userRole }) {
         </div>
       </div>
       <div className="flex justify-center">
-        <Button className="font-bold text-white rounded bg-orange hover:bg-[#E37410]">
+        <Link
+          to="messages"
+          className=" text-white rounded p-2 bg-orange hover:bg-[#E37410] hover:font-bold hover:text-lg"
+        >
           View Messages
-        </Button>
+        </Link>
       </div>
     </Modal>
   );

@@ -2,10 +2,16 @@ import Modal from "../../../components/ui/Modal";
 import Button from "../../../components/ui/Button";
 import supabase from "../../../config/supabaseClient";
 import { useState } from "react";
+import { useSessionContext } from "../../../contexts/SessionContext";
+import { useNavigate } from "react-router-dom";
 
-function DonationPostForm({ user, showForm }) {
+function DonationPostForm() {
+  const {
+    session: { user },
+  } = useSessionContext();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const navigate = useNavigate();
 
   async function PostDonation(event) {
     event.preventDefault();
@@ -27,17 +33,17 @@ function DonationPostForm({ user, showForm }) {
       if (error) {
         throw new Error(error);
       }
-
       alert("Donation Posted successfully!");
-      showForm();
+      navigate("/feed");
     } catch (error) {
+      alert(error);
       console.error(error);
     }
   }
 
   return (
     <div>
-      <Modal onClose={showForm} className="mw-1000">
+      <Modal onClose={() => navigate("/feed")} className="mw-1000">
         <h1 className="text-4xl text-center">Make a Post</h1>
         <form className="flex flex-col">
           <label>Title</label>

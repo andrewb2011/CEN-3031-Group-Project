@@ -1,6 +1,6 @@
 import DonationCard from "./DonationCard";
 
-function DonationList({ postsList, onSelectPost }) {
+function DonationList({ postsList }) {
   // Load each Donation Card using attributes from the PostgresSQL database
   return (
     <div>
@@ -10,7 +10,6 @@ function DonationList({ postsList, onSelectPost }) {
           postId={post.post_id}
           title={post.title}
           description={post.description}
-          onSelectPost={onSelectPost}
         />
       ))}
     </div>

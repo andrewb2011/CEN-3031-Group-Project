@@ -1,50 +1,37 @@
 import { useEffect, useState } from "react";
 import DonationList from "../features/donation/components/DonationList";
-import DonationPostForm from "../features/donation/components/DonationPostForm";
-import {
-  getAllPosts,
-  subscribeToAllDonationChanges,
-} from "../features/donation/services/donationPostService";
-import ActiveDetailedCardView from "../features/donation/components/ActiveDetailedCardView";
+import { subscribeToAllDonationChanges } from "../features/donation/services/donationPostService";
 import Spinner from "../components/ui/Spinner";
+import { Link, Outlet } from "react-router-dom";
+import { useSessionContext } from "../contexts/SessionContext";
+import { usePostsContext } from "../features/donation/contexts/PostsContext";
 
-function Feed({ user }) {
-  const [postsList, setPostListState] = useState([]);
-  const [showFormState, setShowFormState] = useState(false);
-  const [selectedPost, setSelectedPost] = useState(null);
+function Feed() {
+  const {
+    session: { user },
+  } = useSessionContext();
+  const {
+    postsList,
+    isLoadingPosts,
+    fetchActiveDonations,
+    insertPost,
+    deletePost,
+  } = usePostsContext();
   const [showMyPosts, setShowMyPosts] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  function onSelectPost(postId) {
-    setSelectedPost(postsList.find((post) => post.post_id === postId));
-  }
 
   // Get all donation_post tuples after mount
   useEffect(function () {
-    (async () => {
-      try {
-        setIsLoading(true);
-        setPostListState(await getAllPosts());
-      } catch (error) {
-        console.error(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    })();
+    fetchActiveDonations();
   }, []);
 
   //Subscribe to donation_post changes
   useEffect(function () {
     function handleSubscriptionEvent(event) {
       if (event.eventType == "INSERT") {
-        setPostListState((state) => [...state, event.new]);
+        insertPost(event.new);
       } else if (event.eventType == "UPDATE" && event.new.claimed_by != null) {
         //When a tuple gets claimed, we're actually removing it from lists of posts that are displayed on the feed
-        setPostListState((state) =>
-          state.filter((post) => {
-            if (post.post_id !== event.new.post_id) return post;
-          })
-        );
+        deletePost(event.new.post_id);
       }
     }
 
@@ -62,35 +49,19 @@ function Feed({ user }) {
         .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
     : postsList.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
-  if (isLoading) return <Spinner />;
+  if (isLoadingPosts) return <Spinner />;
 
   return (
     <div className=" mt-5 mb-5 w-[900px] mx-auto font-robotoslab">
-      {showFormState && (
-        <DonationPostForm
-          user={user}
-          showForm={() => setShowFormState(!showFormState)}
-        />
-      )}
-      {selectedPost && (
-        <ActiveDetailedCardView
-          selectedPost={selectedPost}
-          setSelectedPost={setSelectedPost}
-          user={user}
-        />
-      )}
-
+      <Outlet />
       {user.user_metadata.role === "donor" && (
         <div className="flex items-center justify-end w-full gap-5">
-          <button
-            className="h-10 text-white rounded w-36 bg-orange hover:bg-[#E37410] hover:font-bold hover:text-lg"
-            onClick={() => {
-              setShowFormState(!showFormState);
-            }}
+          <Link
+            to="make-post"
+            className=" text-white rounded p-2 bg-orange hover:bg-[#E37410] hover:font-bold hover:text-lg"
           >
-            Create a Post
-          </button>
-
+            Make a Post
+          </Link>
           <div>
             <label className="mr-3">View My Posts</label>
             <input
@@ -101,7 +72,7 @@ function Feed({ user }) {
           </div>
         </div>
       )}
-      <DonationList postsList={filteredPosts} onSelectPost={onSelectPost} />
+      <DonationList postsList={filteredPosts} />
     </div>
   );
 }
