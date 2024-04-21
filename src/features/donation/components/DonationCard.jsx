@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
 // Card seen in "Feed" and "View Past Donation" lists
 function DonationCard({ postId, title, description }) {
@@ -19,3 +20,9 @@ function DonationCard({ postId, title, description }) {
 }
 
 export default DonationCard;
+
+DonationCard.propTypes = {
+  postId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired, // postId should be a string or a number and is required
+  title: PropTypes.string.isRequired, // title should be a string and is required
+  description: PropTypes.string.isRequired, // description should be a string and is required
+};

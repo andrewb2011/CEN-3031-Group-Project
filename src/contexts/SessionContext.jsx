@@ -1,5 +1,6 @@
 import { createContext, useContext } from "react";
 import { useAuth } from "../features/authentication/hooks/useAuth";
+import PropTypes from "prop-types";
 
 //1. create context
 const SessionContext = createContext();
@@ -26,3 +27,7 @@ export function useSessionContext() {
     throw new Error("Attempted to use SessionContext outside of served area");
   return context;
 }
+
+SessionProvider.propTypes = {
+  children: PropTypes.node.isRequired, // Children can be any renderable React node
+};
