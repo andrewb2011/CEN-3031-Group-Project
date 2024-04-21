@@ -2,7 +2,7 @@ import { useReducer, useState } from "react";
 import { signOut, signUp } from "../services/authService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate, Link, useSearchParams } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Button from "../../../components/ui/Button";
 import { twMerge } from "tailwind-merge";
 import { InputField } from "../../../components/ui/InputField";
