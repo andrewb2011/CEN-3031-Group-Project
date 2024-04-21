@@ -2,7 +2,7 @@ import { useReducer, useState } from "react";
 import { signOut, signUp } from "../services/authService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import Button from "../../../components/ui/Button";
 import { twMerge } from "tailwind-merge";
 import { InputField } from "../../../components/ui/InputField";
@@ -61,11 +61,20 @@ function RegistrationForm({ className }) {
 
   async function handleRegister(event) {
     event.preventDefault();
-    clearErrorMessages();
+    setEmailErrorMessage("");
+    setUserNameErrorMessage("");
+    setPasswordErrorMessage("");
+    setOrgNameErrorMessage("");
 
     //If either of these attributes is blank then don't proceed
-    if (!validateForm()) return;
-
+    if (!email || !password || !user_name || !organization_name) {
+      if (!email) setEmailErrorMessage("Email is required");
+      if (!password) setPasswordErrorMessage("Password is required");
+      if (!user_name) setUserNameErrorMessage("Username is required");
+      if (!organization_name)
+        setOrgNameErrorMessage("Organization name is required");
+      return;
+    }
     try {
       dispatch({ type: "SET_LOADING", payload: true });
       const userData = {
@@ -96,66 +105,23 @@ function RegistrationForm({ className }) {
         navigate("/login");
       }
     } catch (error) {
-      handleRegistrationError(error);
+      // if email is already registered, set email error to this string
+      if (error.message === "User already registered")
+        setEmailErrorMessage("This email already exists");
+      if (
+        // if username is already registered, set email error to this string
+        error.message ===
+        `duplicate key value violates unique constraint "profiles_user_name_key"`
+      )
+        setUserNameErrorMessage("This username already exists");
+      if (
+        error.message ===
+        `duplicate key value violates unique constraint "profiles_organization_name_key"`
+      )
+        setOrgNameErrorMessage("Organization name already exists");
     } finally {
       dispatch({ type: "SET_LOADING", payload: false });
     }
-  }
-
-  function validateForm() {
-    let isValid = true;
-    const requiredFields = [
-      {
-        field: email,
-        errorMessage: "Email is required",
-        setError: setEmailErrorMessage,
-      },
-      {
-        field: password,
-        errorMessage: "Password is required",
-        setError: setPasswordErrorMessage,
-      },
-      {
-        field: user_name,
-        errorMessage: "Username is required",
-        setError: setUserNameErrorMessage,
-      },
-      {
-        field: organization_name,
-        errorMessage: "Organization name is required",
-        setError: setOrgNameErrorMessage,
-      },
-    ];
-
-    requiredFields.forEach(({ field, errorMessage, setError }) => {
-      if (!field) {
-        setError(errorMessage);
-        isValid = false;
-      }
-    });
-
-    return isValid;
-  }
-  function clearErrorMessages() {
-    setEmailErrorMessage("");
-    setUserNameErrorMessage("");
-    setPasswordErrorMessage("");
-    setOrgNameErrorMessage("");
-  }
-
-  function handleRegistrationError(error) {
-    if (error.message === "User already registered")
-      setEmailErrorMessage("This email already exists");
-    else if (
-      error.message ===
-      `duplicate key value violates unique constraint "profiles_user_name_key"`
-    )
-      setUserNameErrorMessage("This username already exists");
-    else if (
-      error.message ===
-      `duplicate key value violates unique constraint "profiles_organization_name_key"`
-    )
-      setOrgNameErrorMessage("Organization name already exists");
   }
 
   return (
