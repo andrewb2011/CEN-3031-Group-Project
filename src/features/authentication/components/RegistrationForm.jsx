@@ -94,7 +94,6 @@ function RegistrationForm({ className }) {
       const { error } = await signUp(userData);
 
       if (error) {
-        //console.log(error.message);
         throw new Error(error.message);
       } else {
         //if successfully logged in, then ...
