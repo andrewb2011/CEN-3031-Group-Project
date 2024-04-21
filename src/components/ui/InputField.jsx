@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
+import PropTypes from "prop-types";
 
 export function InputField({
   labelName,
@@ -50,3 +51,15 @@ export function InputField({
     </div>
   );
 }
+
+InputField.propTypes = {
+  labelName: PropTypes.string.isRequired, // The label for the input field
+  type: PropTypes.string.isRequired, // The type of input field (e.g., text, password)
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired, // The value of the input field
+  onChange: PropTypes.func.isRequired, // Function to handle input field value change
+  placeholder: PropTypes.string, // Placeholder text for the input field
+  children: PropTypes.node, // Additional content to be rendered inside the input field component
+  disableTransition: PropTypes.bool, // Indicates whether transition effects should be disabled
+  className: PropTypes.string, // Additional class names to be applied to the input field component
+  errorMessage: PropTypes.string, // Error message to be displayed, if applicable
+};
