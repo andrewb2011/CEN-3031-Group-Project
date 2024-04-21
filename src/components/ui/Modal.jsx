@@ -1,6 +1,7 @@
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { faCircleArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import PropTypes from "prop-types";
 
 const Modal = ({ onClose, children, onClickBackButton = null }) => {
   return (
@@ -26,6 +27,12 @@ const Modal = ({ onClose, children, onClickBackButton = null }) => {
       </div>
     </div>
   );
+};
+
+Modal.propTypes = {
+  onClose: PropTypes.func.isRequired, // Function to handle closing the modal
+  children: PropTypes.node.isRequired, // Content to be displayed inside the modal
+  onClickBackButton: PropTypes.func, // Function to handle clicking the back button, if provided
 };
 
 export default Modal;

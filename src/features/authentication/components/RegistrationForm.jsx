@@ -6,6 +6,7 @@ import { useNavigate, Link } from "react-router-dom";
 import Button from "../../../components/ui/Button";
 import { twMerge } from "tailwind-merge";
 import { InputField } from "../../../components/ui/InputField";
+import PropTypes from "prop-types";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -81,7 +82,7 @@ function RegistrationForm({ className }) {
         },
       };
 
-      const { data, error } = await signUp(userData);
+      const { error } = await signUp(userData);
 
       if (error) {
         //console.log(error.message);
@@ -242,5 +243,9 @@ function RegistrationForm({ className }) {
     </div>
   );
 }
+
+RegistrationForm.propTypes = {
+  className: PropTypes.string, // Additional class names to be applied to the form container
+};
 
 export default RegistrationForm;
