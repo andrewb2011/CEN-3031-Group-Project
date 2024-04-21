@@ -1,5 +1,7 @@
-import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
-import { faCircleArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTimesCircle,
+  faCircleArrowLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 
