@@ -146,7 +146,7 @@ function RegistrationForm({ className }) {
           onChange={(e) =>
             dispatch({ type: "SET_USER_NAME", payload: e.target.value })
           }
-          erroMessage={usernameErrorMessage}
+          errorMessage={usernameErrorMessage}
         />
 
         <InputField
@@ -178,7 +178,7 @@ function RegistrationForm({ className }) {
           onChange={(e) =>
             dispatch({ type: "SET_ORGANIZATION_NAME", payload: e.target.value })
           }
-          error={orgNameErrorMessage}
+          errorMessage={orgNameErrorMessage}
         />
         <InputField
           labelName="Are you a donor?"
