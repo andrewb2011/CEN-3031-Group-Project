@@ -1,4 +1,5 @@
 import DonationCard from "./DonationCard";
+import PropTypes from "prop-types";
 
 function DonationList({ postsList }) {
   // Load each Donation Card using attributes from the PostgresSQL database
@@ -17,3 +18,14 @@ function DonationList({ postsList }) {
 }
 
 export default DonationList;
+
+DonationList.propTypes = {
+  postsList: PropTypes.arrayOf(
+    PropTypes.shape({
+      post_id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        .isRequired,
+      title: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+};

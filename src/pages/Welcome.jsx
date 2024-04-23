@@ -38,7 +38,7 @@ function Welcome() {
         <div className="flex flex-col items-center w-64 text-center ">
           <img
             src={circleEnvelope}
-            alt="image of an evelope"
+            alt="an evelope"
             className="w-14 md:w-1/3"
           />
           <h3 className="text-xl font-bold">
@@ -47,7 +47,7 @@ function Welcome() {
           <p>Coordinate pickup details instantly!</p>
         </div>
         <div className="flex flex-col items-center w-64 text-center ">
-          <img src={delivery} alt="image of box" className="w-14 md:w-1/3" />
+          <img src={delivery} alt="a box" className="w-14 md:w-1/3" />
           <h3 className="text-xl font-bold">Simple Donation Claiming</h3>
           <p>Get what you need hassle-free!</p>
         </div>

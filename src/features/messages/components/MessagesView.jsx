@@ -30,6 +30,7 @@ function MessagesView() {
   const [threadId, setThreadId] = useState("");
   const [textMessage, setTextMessage] = useState("");
   const textAreaRef = useRef(null);
+  const messagesContainerRef = useRef(null);
   let formattedMessageList;
 
   if (messagesList.length > 0) {
@@ -95,6 +96,7 @@ function MessagesView() {
           const data = await getTextMessagesByPostId(id);
           setThreadId(data.threadID);
           setMessagesList(data.textMessages);
+          scrollToBottom();
         } catch (error) {
           console.error(error);
         } finally {
@@ -114,6 +116,7 @@ function MessagesView() {
       function messageEventHandler(event) {
         console.log(event);
         setMessagesList((list) => [...list, event.new]);
+        scrollToBottom();
       }
 
       if (threadId.length > 0) {
@@ -127,6 +130,11 @@ function MessagesView() {
 
     [threadId]
   );
+
+  function scrollToBottom() {
+    messagesContainerRef.current.scrollTop =
+      messagesContainerRef.current.scrollHeight;
+  }
 
   if (isLoadingMessages || isLoadingOtherPersonData || isLoadingSinglePost)
     return <Spinner />;
@@ -151,7 +159,10 @@ function MessagesView() {
     >
       <h2 className="ml-4 text-xl text-gray-600">{otherPersonUsername}</h2>
       <h3 className="ml-6 text-gray-700">{otherPersonOrgName}</h3>
-      <div className="p-4 mb-4 bg-[#FAC710] bg-opacity-15 border rounded-lg border-orange max-h-[300px] overflow-y-auto">
+      <div
+        ref={messagesContainerRef}
+        className="p-4 mb-4 bg-[#FAC710] bg-opacity-15 border rounded-lg border-orange max-h-[300px] overflow-y-auto"
+      >
         <div className="flex flex-col-reverse">
           {messagesList.length === 0 ? (
             <p>Start the conversation by sending a message 😊</p>

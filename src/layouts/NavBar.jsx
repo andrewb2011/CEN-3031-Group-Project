@@ -55,4 +55,3 @@ function NavBar() {
 
 export default NavBar;
 
-//{renderLogoutButton && <button onClick={handleLogout}>Logout</button>}
