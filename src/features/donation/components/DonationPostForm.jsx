@@ -46,7 +46,7 @@ function DonationPostForm() {
       <Modal onClose={() => navigate("/feed")} className="mw-1000">
         <h1 className="text-4xl text-center">Make a Post</h1>
         <form className="flex flex-col">
-          <label>Title</label>
+          <label htmlFor="title">Title</label>
           <input
             type="text"
             placeholder="Enter title here"
@@ -54,7 +54,7 @@ function DonationPostForm() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-          <label>Description</label>
+          <label htmlFor="description">Description</label>
           <textarea
             type="text"
             placeholder="Enter description here"

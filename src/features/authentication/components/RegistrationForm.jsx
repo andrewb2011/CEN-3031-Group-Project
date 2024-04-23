@@ -2,10 +2,11 @@ import { useReducer, useState } from "react";
 import { signOut, signUp } from "../services/authService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate, Link, useSearchParams } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Button from "../../../components/ui/Button";
 import { twMerge } from "tailwind-merge";
 import { InputField } from "../../../components/ui/InputField";
+import PropTypes from "prop-types";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -90,10 +91,9 @@ function RegistrationForm({ className }) {
         },
       };
 
-      const { data, error } = await signUp(userData);
+      const { error } = await signUp(userData);
 
       if (error) {
-        //console.log(error.message);
         throw new Error(error.message);
       } else {
         //if successfully logged in, then ...
@@ -146,7 +146,7 @@ function RegistrationForm({ className }) {
           onChange={(e) =>
             dispatch({ type: "SET_USER_NAME", payload: e.target.value })
           }
-          erroMessage={usernameErrorMessage}
+          errorMessage={usernameErrorMessage}
         />
 
         <InputField
@@ -178,7 +178,7 @@ function RegistrationForm({ className }) {
           onChange={(e) =>
             dispatch({ type: "SET_ORGANIZATION_NAME", payload: e.target.value })
           }
-          error={orgNameErrorMessage}
+          errorMessage={orgNameErrorMessage}
         />
         <InputField
           labelName="Are you a donor?"
@@ -208,5 +208,9 @@ function RegistrationForm({ className }) {
     </div>
   );
 }
+
+RegistrationForm.propTypes = {
+  className: PropTypes.string, // Additional class names to be applied to the form container
+};
 
 export default RegistrationForm;
