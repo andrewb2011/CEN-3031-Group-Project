@@ -183,6 +183,7 @@ function MessagesView() {
           className="w-full p-4 mb-4 bg-[#FAC710] bg-opacity-15 border rounded-lg border-orange"
         ></textarea>
         <IoSend
+          data-testid="sendMessageTest"
           onClick={() => onSendMessage()}
           className="absolute cursor-pointer right-4 bottom-12 hover:"
         />

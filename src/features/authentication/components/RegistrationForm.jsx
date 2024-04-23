@@ -160,6 +160,7 @@ function RegistrationForm({ className }) {
           errorMessage={passwordErrorMessage}
         >
           <FontAwesomeIcon
+            data-testid="eyeTest"
             className="absolute right-0 p-1 cursor-pointer"
             icon={isPasswordVisible ? faEye : faEyeSlash}
             size="xl"

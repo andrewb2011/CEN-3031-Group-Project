@@ -19,7 +19,7 @@ const Modal = ({ onClose, children, onClickBackButton = null }) => {
             />
           </button>
         )}
-        <button onClick={onClose} className="absolute right-2 top-2">
+        <button data-testid="modalCloseTest" onClick={onClose} className="absolute right-2 top-2">
           <FontAwesomeIcon
             icon={faTimesCircle}
             className="text-orange size-6"
