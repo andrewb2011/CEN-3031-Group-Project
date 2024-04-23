@@ -54,6 +54,7 @@ function Login({ className }) {
           onChange={(e) => setPassword(e.target.value)}
         >
           <FontAwesomeIcon
+            data-testid="eyeTest"
             className="absolute right-0 p-1 cursor-pointer"
             icon={isPasswordVisible ? faEye : faEyeSlash}
             onClick={() => setIsPasswordVisible(!isPasswordVisible)}
