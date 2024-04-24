@@ -66,6 +66,12 @@ create table
   ) tablespace pg_default;
 ```
 
+Once the tables are set up as per the instructions, in supabase, navigate to the API settings within your project and copy the project URL and project API key-anon public into variables 
+VITE_SUPABASE_URL = your_url
+ VITE_ANON_KEY = your_anon_key
+Put these 2 variables into a .env file
+
+
 To run this project on your machine, we recommend that you fork this
 repository so that you may make any adjustments if you so wish. We provide below a simple list of instructions to get started
 Prerequisites: Make sure you have the following installed on your machine.
