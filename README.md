@@ -12,7 +12,7 @@ For your convenience, we've provided the database schema below. This will enable
 
 This approach ensures a smooth transition for your project setup and allows you to start working on NourishLink promptly.
 
-If you simply want to use NourishLink without diving into the code, you can access a live instance of the application hosted on Vercel. The link is provided [here](https://cen-3031-group-project.vercel.app/welcome).
+If you simply want to use NourishLink without diving into the code, you can access a live instance of the application hosted on Vercel. The link is provided [here](https://cen-3031-group-project.vercel.app).
 
 ### Database Schema
 
