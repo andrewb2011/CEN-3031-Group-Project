@@ -81,7 +81,7 @@ jobs:
           command: sudo vercel pull --yes --environment=production --token=$VERCEL_TOKEN
       - run:
           name: Build Project Artifacts
-          command: sudo ercel build --prod --token=$VERCEL_TOKEN
+          command: sudo vercel build --prod --token=$VERCEL_TOKEN
       - run:
           name: Deploy Project Artifacts to Vercel
           command: sudo vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
