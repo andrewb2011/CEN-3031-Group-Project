@@ -1,0 +1,77 @@
+/* Import Tailwind's base styles */
+@tailwind base;
+
+@layer base {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+}
+/* Import Tailwind's components styles */
+@tailwind components;
+
+/* This CSS code is meant to style the Regiter and Login pages. Do not use the following class names outside either of these pages */
+@layer components {
+  .register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  .image-container {
+    background-image: url(../assets/registerPageImg.jpg);
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+  .left {
+    display: none;
+  }
+
+  .right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (min-width: 900px) {
+    .register-container {
+      justify-content: flex-start;
+      align-items: stretch;
+      height: 100%;
+    }
+
+    .left {
+      display: block;
+      flex: 1;
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .left {
+      flex: 3;
+    }
+    .right {
+      flex: 2;
+      justify-content: flex-start;
+    }
+
+    .image-container {
+      background-image: url(../assets/registerPageImg.jpg);
+      background-position: 0% 30%;
+      background-size: cover;
+      background-origin: border-box;
+      background-repeat: no-repeat;
+      width: 75%;
+      height: 100%;
+    }
+  }
+}
+
+/* Import Tailwind's utilities styles */
+@tailwind utilities;

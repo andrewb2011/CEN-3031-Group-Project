@@ -1,0 +1,1 @@
+//use React to subscribe a user to an important event. The event an update of a table on supdabase. If that event happens, then the callback function you define will execute. Unsubscribe when they exit the session or when the components stops rendering (umount)
